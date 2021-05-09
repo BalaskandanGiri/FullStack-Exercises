@@ -3,8 +3,8 @@ import Part from "./Part";
 
 const Content = (props) => {
 
-    return props.exercises.map((exercise, index) => {
-        return <Part part={props.parts[index]} exercise={props.exercises[index]}/>
+    return props.parts.map((part, index) => {
+        return <Part part={props.parts[index].name} exercise={props.parts[index].exercises}/>
     });
 
 
