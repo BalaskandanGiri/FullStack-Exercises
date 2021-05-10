@@ -5,7 +5,7 @@ const Button = (props) => {
 };
 
 const Statistic = (props) => {
-  return <p>{props.text} {props.value}</p>
+    return <tr><td>{props.text}</td><td>{props.value}</td></tr>
 };
 
 // a proper place to define a component
@@ -18,13 +18,13 @@ const Statistics = (props) => {
     const avg = (props.good - props.bad)/total;
     const positive = (props.good/total) * 100;
     return (
-        <div>
+        <table>
             <Statistic text={"good"} value={props.good}/>
             <Statistic text={"neutral"} value={props.neutral}/>
             <Statistic text={"bad"} value={props.bad}/>
             <Statistic text={"average"} value={avg}/>
             <Statistic text={"positive"} value={positive+"%"}/>
-        </div>
+        </table>
     )
 };
 
