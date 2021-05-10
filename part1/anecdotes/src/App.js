@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
 
+const randomIntFromInterval = (min, max)  => {
+  // min and max included
+  const v =  Math.floor(Math.random() * (max - min + 1) + min);
+  console.log(v);
+  return v;
+};
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -8,16 +16,30 @@ const App = () => {
     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-  ]
+  ];
 
-  const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState([0,0,0,0,0,0]);
+  const [selected, setSelected] = useState(0);
+  const [mostVoted, setMostVoted] = useState(0);
 
+  const updateVotes = () => {
+    let temp = [...votes];
+    temp[selected]+=1;
+    if (temp[selected] > votes[mostVoted]) {
+      setMostVoted(selected);
+    }
+    setVotes(temp);
+  };
   return (
       <div>
         <p>{anecdotes[selected]}</p>
-        <button onClick={() => {setSelected((selected+1)%anecdotes.length)}}>Next</button>
+        <p>It has {votes[selected]} votes</p>
+        <button onClick={() => {updateVotes()}}>vote</button><button onClick={() => {setSelected(randomIntFromInterval(0,anecdotes.length-1))}}>Next</button>
+        <h1>Anecdote with most number of votes</h1>
+        <p>{anecdotes[mostVoted]} has {votes[mostVoted]} votes</p>
       </div>
   )
-}
+};
+
 
 export default App
