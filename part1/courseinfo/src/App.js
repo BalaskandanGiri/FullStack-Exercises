@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import Content from "./components/Content";
 import Footer from "./components/Footer";
 
+const App = () => {
+
 const course = {
   name: 'Half Stack application development',
   parts: [
@@ -31,4 +33,4 @@ const course = {
   )
 };
 
-export default App
+export default App;
