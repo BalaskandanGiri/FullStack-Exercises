@@ -62,7 +62,7 @@ function App() {
   
   return(
       <div>
-        <div>find countries <input value={country} onChange={handleInputChange}/></div>
+        <div>find countrie <input value={country} onChange={handleInputChange}/></div>
         <DisplayResult result={result} country={(c) => filter(c.toLowerCase())}/>
       </div>
   );
