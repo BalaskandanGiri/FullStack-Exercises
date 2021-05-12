@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 
-const App = () => {
+const App = initialState => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number:'1234-567-89' }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]);
+  let [filterResult,setFilterResult] = useState(persons);
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
+  const [filter, setFilter] = useState('');
+
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -15,6 +21,21 @@ const App = () => {
     } else {
       setPersons(persons.concat(newPerson));
       setNewPerson({name:'',number:''});
+      setFilterResult(persons.concat(newPerson));
+    }
+  };
+
+  const filterHandler = (event) => {
+    let val = event.target.value.toLowerCase();
+    console.log(val)
+    setFilter(val);
+    // console.log(filter);
+    if(!val) {
+      setFilterResult(persons);
+    } else {
+      setFilterResult(persons.filter((person) =>
+          person.name.toLowerCase().includes(val)
+      ))
     }
   };
 
@@ -31,6 +52,8 @@ const App = () => {
   return (
       <div>
         <h2>Phonebook</h2>
+        Filter shown with <input value={filter} onChange={filterHandler}/>
+        <h2>Add a new</h2>
         <form onSubmit={submitHandler}>
           <div>
             name: <input value={newPerson.name} onChange={handleNameChange}/>
@@ -44,7 +67,7 @@ const App = () => {
         </form>
         <div>debug: {newPerson.name}</div>
         <h2>Numbers</h2>
-        {persons.map((per) => <p key={per.number}>{per.name} {per.number}</p>)}
+        {filterResult.map((per) => <p key={per.number}>{per.name} {per.number}</p>)}
       </div>
   )
 }
