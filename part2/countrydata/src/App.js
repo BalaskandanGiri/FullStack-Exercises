@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
-const DisplayResult = ({result}) => {
+const DisplayResult = ({result,country}) => {
   console.log(result);
   if(result.length > 10) {
     return <p>To many matches, please be more specific</p>;
@@ -22,7 +22,14 @@ const DisplayResult = ({result}) => {
     );
   }
    else {
-    return result.map(res => <p>{res.name}</p>);
+    return result.map(res => {
+    return (
+      <>
+      <p>{res.name} <button onClick={() => country(res.name)}>show</button></p>
+      
+      </>
+    )
+  });
   }
 }
 
@@ -36,8 +43,8 @@ function App() {
       setData(response.data);
     });
   }, [])
-  const handleInputChange =(event) =>{
-    const val = event.target.value;
+
+  const filter = (val) => {
     setCountry(val);
     setResult(data.filter((c) => {
       if(c.name.toLowerCase().includes(val.toLowerCase())){
@@ -45,6 +52,10 @@ function App() {
       } 
     }
     ));
+  }
+  const handleInputChange =(event) =>{
+    const val = event.target.value;
+    filter(val);
     console.log(result);
   };
 
@@ -52,7 +63,7 @@ function App() {
   return(
       <div>
         <div>find countries <input value={country} onChange={handleInputChange}/></div>
-        <DisplayResult result={result}/>
+        <DisplayResult result={result} country={(c) => filter(c.toLowerCase())}/>
       </div>
   );
 }
