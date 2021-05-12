@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewPerson from "./components/NewPerson";
 import Filter from "./components/Filter";
 import FilterResult from "./components/FilterResult";
+import axios from "axios";
 
 const App = initialState => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]);
+  const [ persons, setPersons ] = useState();
   let [filterResult,setFilterResult] = useState(persons);
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
   const [filter, setFilter] = useState('');
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons').then((response) => {
+      console.log('Response from db.json :', response);
+      setPersons(response.data);
+      setFilterResult(response.data);
 
+    })
+  }, []);
   const submitHandler = (event) => {
     event.preventDefault();
     let find = persons.find((x) => x.name === newPerson.name);
