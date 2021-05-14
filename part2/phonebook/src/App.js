@@ -5,7 +5,7 @@ import FilterResult from "./components/FilterResult";
 import axios from "axios";
 
 const App = initialState => {
-  const [ persons, setPersons ] = useState();
+  const [ persons, setPersons ] = useState([]);
   let [filterResult,setFilterResult] = useState(persons);
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
   const [filter, setFilter] = useState('');
@@ -15,7 +15,6 @@ const App = initialState => {
       console.log('Response from db.json :', response);
       setPersons(response.data);
       setFilterResult(response.data);
-
     })
   }, []);
   const submitHandler = (event) => {
@@ -25,9 +24,12 @@ const App = initialState => {
     if(find) {
       alert(`${newPerson.name} is already added to the phonebook`)
     } else {
-      setPersons(persons.concat(newPerson));
-      setNewPerson({name:'',number:''});
-      setFilterResult(persons.concat(newPerson));
+      axios.post('http://localhost:3001/persons',newPerson).then((response) => {
+        console.log(response);
+        setPersons(persons.concat(newPerson));
+        setNewPerson({name:'',number:''});
+        setFilterResult(persons.concat(newPerson));
+      })
     }
   };
 
