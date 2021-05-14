@@ -2,7 +2,23 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const DisplayResult = ({result,country}) => {
+
+  const [weatherData, setWeatherData] = useState(null);
+  useEffect(() => {
+    if(result.length === 1) {
+      axios.get('http://api.weatherstack.com/current?access_key='+process.env.REACT_APP_API_KEY+'&query='+result[0].name).then(({data}) => {
+        console.log(data);
+        setWeatherData(data);
+      })
+    }
+  },[result]);
   console.log(result);
+  const displayWeatherData = weatherData ? <>
+  <h2> Weather in {result[0].name}</h2>
+  <p><b>temperature:</b> {weatherData.current.temperature} celcius</p>
+  <img src={weatherData.current.weather_icons[0]}/>
+  <p><b>wind:</b> {weatherData.current.wind_speed}</p>
+  </> : null;
   if(result.length > 10) {
     return <p>To many matches, please be more specific</p>;
   } else if(result.length === 1) {
@@ -18,6 +34,7 @@ const DisplayResult = ({result,country}) => {
         })}
         </ul>
         <img src={result[0].flag} width="20%" ></img>
+        {displayWeatherData|| null}
       </div>
     );
   }
@@ -37,7 +54,9 @@ function App() {
   const [country, setCountry] = useState('');
   const [data, setData] = useState([]);
   const [result, setResult] = useState([]);
-
+  console.log(process.env.REACT_APP_Test);
+  console.log(process.env.REACT_APP_API_KEY);
+  console.log(process.env);
   useEffect(() => {
     axios.get('https://restcountries.eu/rest/v2/all').then((response) => {
       setData(response.data);
