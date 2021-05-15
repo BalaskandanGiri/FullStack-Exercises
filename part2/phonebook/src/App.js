@@ -11,13 +11,20 @@ const App = initialState => {
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
+
+  const getBackend = () => {
     phoneService.getPhoneBook().then((response) => {
       console.log('Response from db.json :', response);
       setPersons(response.data);
       setFilterResult(response.data);
     })
+  }
+
+  useEffect(() => {
+    getBackend();
   }, []);
+
+
   const submitHandler = (event) => {
     event.preventDefault();
     let find = persons.find((x) => x.name === newPerson.name);
@@ -26,10 +33,8 @@ const App = initialState => {
       alert(`${newPerson.name} is already added to the phonebook`)
     } else {
       phoneService.postPhoneNumber(newPerson).then((response) => {
-        console.log(response);
-        setPersons(persons.concat(newPerson));
+        getBackend();
         setNewPerson({name:'',number:''});
-        setFilterResult(persons.concat(newPerson));
       })
     }
   };
@@ -58,11 +63,12 @@ const App = initialState => {
     setNewPerson({...newPerson,number:event.target.value});
   }
 
+
   return (
       <div>
         <Filter filter={filter} filterHandler={(event) => filterHandler(event)}/>
         <NewPerson newPerson={newPerson} submitHandler={(event) => submitHandler(event)} handleNumberChange={(event) => handleNumberChange(event)} handleNameChange={(e) => handleNameChange(e)}/>
-        <FilterResult filterResult={filterResult}/>
+        <FilterResult filterResult={filterResult} refresh={(id) => {console.log(id);id && getBackend()}}/>
       </div>
   )
 }
