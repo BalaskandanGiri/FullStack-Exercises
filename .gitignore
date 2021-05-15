@@ -106,3 +106,4 @@ dist
 part2/package.json
 part2/countrydata/test.rest
 part2/phonebook/db.json
+part2/phonebook/test.rest

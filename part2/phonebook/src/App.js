@@ -30,13 +30,17 @@ const App = initialState => {
     let find = persons.find((x) => x.name === newPerson.name);
     console.log(find);
     if(find) {
-      alert(`${newPerson.name} is already added to the phonebook`)
+      if(window.confirm("The person is already in the phone book? Do you want to update the phoneNumber?")) {
+        phoneService.updatePhoneNumber(find.id, newPerson).then(() => {
+          getBackend();
+        });
+      }
     } else {
       phoneService.postPhoneNumber(newPerson).then((response) => {
         getBackend();
-        setNewPerson({name:'',number:''});
       })
     }
+    setNewPerson({name:'',number:''});
   };
 
   const filterHandler = (event) => {
