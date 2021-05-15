@@ -10,7 +10,7 @@ const App = initialState => {
   let [filterResult,setFilterResult] = useState(persons);
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
   const [filter, setFilter] = useState('');
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState({msg:null,type:'success'});
 
   const getBackend = () => {
     phoneService.getPhoneBook().then((response) => {
@@ -33,13 +33,18 @@ const App = initialState => {
       if(window.confirm("The person is already in the phone book? Do you want to update the phoneNumber?")) {
         phoneService.updatePhoneNumber(find.id, newPerson).then(() => {
           getBackend();
+        }).catch((err) => {
+          console.log(err);
+          getBackend();
+          setMessage({msg:"404 person was already deleted",type:"error"});
+          setTimeout(() =>{setMessage({...message, msg:null})},5000)
         });
       }
     } else {
       phoneService.postPhoneNumber(newPerson).then((response) => {
         getBackend();
-        setMessage("Created Phone number successfully");
-        setTimeout(() =>{setMessage(null)},5000)
+        setMessage({msg:"Created Phone number successfully", type:"success"});
+        setTimeout(() =>{setMessage({...message, msg:null})},5000)
       })
     }
     setNewPerson({name:'',number:''});
@@ -72,7 +77,7 @@ const App = initialState => {
 
   return (
       <div>
-        <Notification message={message} type="success"/>
+        <Notification message={message.msg} type={message.type}/>
         <Filter filter={filter} filterHandler={(event) => filterHandler(event)}/>
         <NewPerson newPerson={newPerson} submitHandler={(event) => submitHandler(event)} handleNumberChange={(event) => handleNumberChange(event)} handleNameChange={(e) => handleNameChange(e)}/>
         <FilterResult filterResult={filterResult} refresh={(id) => {console.log(id);id && getBackend()}}/>
