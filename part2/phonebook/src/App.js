@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NewPerson from "./components/NewPerson";
 import Filter from "./components/Filter";
 import FilterResult from "./components/FilterResult";
-import axios from "axios";
+import Notification from "./components/Notification";
 import phoneService from "./service/phonebook";
 
 const App = initialState => {
@@ -10,7 +10,7 @@ const App = initialState => {
   let [filterResult,setFilterResult] = useState(persons);
   const [ newPerson, setNewPerson ] = useState({name:'',number:''})
   const [filter, setFilter] = useState('');
-
+  const [message, setMessage] = useState(null);
 
   const getBackend = () => {
     phoneService.getPhoneBook().then((response) => {
@@ -38,6 +38,8 @@ const App = initialState => {
     } else {
       phoneService.postPhoneNumber(newPerson).then((response) => {
         getBackend();
+        setMessage("Created Phone number successfully");
+        setTimeout(() =>{setMessage(null)},5000)
       })
     }
     setNewPerson({name:'',number:''});
@@ -70,6 +72,7 @@ const App = initialState => {
 
   return (
       <div>
+        <Notification message={message} type="success"/>
         <Filter filter={filter} filterHandler={(event) => filterHandler(event)}/>
         <NewPerson newPerson={newPerson} submitHandler={(event) => submitHandler(event)} handleNumberChange={(event) => handleNumberChange(event)} handleNameChange={(e) => handleNameChange(e)}/>
         <FilterResult filterResult={filterResult} refresh={(id) => {console.log(id);id && getBackend()}}/>

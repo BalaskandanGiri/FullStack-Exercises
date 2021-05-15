@@ -7,17 +7,16 @@ const NewPerson = ({newPerson, submitHandler, handleNumberChange, handleNameChan
         <div>
             <h2>Add a new</h2>
             <form onSubmit={submitHandler}>
-            <div>
-                name: <input value={newPerson.name} onChange={handleNameChange}/>
-            </div>
-                <div>
-                    number: <input value={newPerson.number} onChange={handleNumberChange}/>
-                </div>
-                <div>
-                <button type="submit">add</button>
-            </div>
+                <table>
+                    <tbody>
+                        <tr><td>name:</td><td><input value={newPerson.name} onChange={handleNameChange}/></td></tr>
+                        <tr><td>number:</td><td><input value={newPerson.number} onChange={handleNumberChange}/></td></tr>
+                        <tr><td></td><td><button type="submit">add</button></td></tr>
+                    </tbody>
+                </table>
+
+
             </form>
-                <div>debug: {newPerson.name}</div>
         </div>
     );
 
