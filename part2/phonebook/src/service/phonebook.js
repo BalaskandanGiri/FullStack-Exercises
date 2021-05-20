@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'https://floating-earth-43351.herokuapp.com/api/persons'
 
 const getPhoneBook = () => {
     return axios.get(baseUrl);
