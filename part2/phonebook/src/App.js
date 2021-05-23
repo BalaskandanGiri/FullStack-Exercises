@@ -45,6 +45,10 @@ const App = initialState => {
         getBackend();
         setMessage({msg:"Created Phone number successfully", type:"success"});
         setTimeout(() =>{setMessage({...message, msg:null})},5000)
+      }).catch((err) => {
+        console.log(err.response.data.error);
+        setMessage({msg:err.response.data.error, type:"error"});
+        setTimeout(() =>{setMessage({...message, msg:null})},5000)
       })
     }
     setNewPerson({name:'',number:''});
