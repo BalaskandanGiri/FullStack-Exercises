@@ -12,6 +12,7 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [showCreate, setShowCreate] = useState(false)
   const [errorMessage, setErrorMessage] = useState({message: null, type:'sucess'})
 
   useEffect(() => {
@@ -52,13 +53,25 @@ const App = () => {
     }
   }
 
+  const createBlog = () => {
+    if (!showCreate) {
+      return <button onClick={() => {setShowCreate(true)}}>Create new Blog</button>
+    } else {
+      return <CreateBlog isLoading={
+        (bool) => setIsLoading(bool)} 
+        setShowCreate={() => {setShowCreate(false)}} 
+        setMessage={(msg,ty) => {setErrorMessage({message:msg, type:ty});setTimeout(()=>{setErrorMessage({message:'',type:'success'})},5000) }}>
+        </CreateBlog>
+    }
+  }
+
   const displayBlogs = () => {
     return (
       <>
         <h2>blogs</h2>
         <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); setUser(null)}}>logout</button></div>
         <br/>
-        <CreateBlog isLoading={(bool) => setIsLoading(bool)} setMessage={(msg,ty) => {setErrorMessage({message:msg, type:ty});setTimeout(()=>{setErrorMessage({message:'',type:'success'})},5000) }}></CreateBlog>
+        {createBlog()}
         <br/>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />

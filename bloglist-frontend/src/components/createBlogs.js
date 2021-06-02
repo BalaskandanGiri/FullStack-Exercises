@@ -52,6 +52,7 @@ const CreateBlog = (props) => {
               />
             </div>
             <button type="submit">Create</button>
+            <button onClick={() => {props.setShowCreate()}}>Cancel</button>
           </form>
         )
 }
