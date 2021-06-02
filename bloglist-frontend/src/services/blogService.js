@@ -9,4 +9,9 @@ const getAll = async () => {
   return request.data
 }
 
-export default { getAll, setToken }
+const create = async (body) => {
+  const resp = await axios.post(baseUrl, body, {headers: {'Authorization': token, 'Content-Type': 'application/json'}} )
+  return resp.data
+}
+
+export default { getAll, setToken, create }

@@ -3,13 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogService'
 import loginService from './services/loginService' 
 import Login from './components/login'
-
+import CreateBlog from './components/createBlogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
 
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem('loggedUser')
@@ -23,7 +25,7 @@ const App = () => {
       }
       t()
     }
-  }, [])
+  }, [isLoading])
 
 
   const handleLogin = async (event) => {
@@ -52,6 +54,8 @@ const App = () => {
       <>
         <h2>blogs</h2>
         <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); setUser(null)}}>logout</button></div>
+        <br/>
+        <CreateBlog isLoading={(bool) => setIsLoading(bool)}></CreateBlog>
         <br/>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
