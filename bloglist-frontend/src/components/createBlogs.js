@@ -13,8 +13,10 @@ const CreateBlog = (props) => {
             const createBlog = await blogService.create({"title": title, "author": author, "url": url})
             console.log(createBlog)
             setUrl('');setAuthor('');setTitle('')
+            props.setMessage('Created Blog successfully', 'success')
             props.isLoading(false)
         } catch(ex) {
+            props.setMessage('Blog creation failed', 'error')
             props.isLoading(false);
         }
 

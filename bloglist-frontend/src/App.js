@@ -4,6 +4,7 @@ import blogService from './services/blogService'
 import loginService from './services/loginService' 
 import Login from './components/login'
 import CreateBlog from './components/createBlogs'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,7 +12,7 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const [errorMessage, setErrorMessage] = useState({message: null, type:'sucess'})
 
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem('loggedUser')
@@ -45,7 +46,9 @@ const App = () => {
       const temp = await blogService.getAll()
       setBlogs(temp)
     } catch (exception) {
-      console.log(exception)
+      setErrorMessage({message:exception.response.data.error, type: 'error'})
+      console.log(exception.response.data.error)
+      setTimeout(() => {setErrorMessage({message:null, type: 'success'})},5000)
     }
   }
 
@@ -55,7 +58,7 @@ const App = () => {
         <h2>blogs</h2>
         <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); setUser(null)}}>logout</button></div>
         <br/>
-        <CreateBlog isLoading={(bool) => setIsLoading(bool)}></CreateBlog>
+        <CreateBlog isLoading={(bool) => setIsLoading(bool)} setMessage={(msg,ty) => {setErrorMessage({message:msg, type:ty});setTimeout(()=>{setErrorMessage({message:'',type:'success'})},5000) }}></CreateBlog>
         <br/>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
@@ -66,7 +69,7 @@ const App = () => {
 
   return (
     <div>
-      {/* {user === null && login} */}
+      {errorMessage.message && <Notification message={errorMessage.message} type={errorMessage.type}></Notification>}
       {user === null && <Login handleLogin={(t) => handleLogin(t)} username={username} password={password} setUsername={(v) => setUsername(v)} setPassword={(v) => setPassword(v)}/>}
       {user !== null && displayBlogs()}
     </div>
