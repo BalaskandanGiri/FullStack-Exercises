@@ -23,4 +23,8 @@ const change = async (body) => {
   return resp.data
 }
 
-export default { getAll, setToken, create, change }
+const deleteBlog = async (id) => {
+  await axios.delete(baseUrl + '/' + id, {headers: {'Authorization': token, 'Content-Type': 'application/json'}})
+}
+
+export default { getAll, setToken, create, change, deleteBlog }
