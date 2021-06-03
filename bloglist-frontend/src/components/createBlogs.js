@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogService'
+import PropTypes from 'prop-types'
 
 
 const CreateBlog = (props) => {
@@ -55,6 +56,11 @@ const CreateBlog = (props) => {
             <button onClick={() => {props.setShowCreate()}}>Cancel</button>
           </form>
         )
+}
+CreateBlog.prototype = {
+    isLoading: PropTypes.func,
+    setShowCreate: PropTypes.func,
+    setMessage: PropTypes.func
 }
 
 export default CreateBlog
