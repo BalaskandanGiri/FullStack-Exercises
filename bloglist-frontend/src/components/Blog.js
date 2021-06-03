@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
-const Blog = ({blog}) => {
+import blogService from '../services/blogService'
+
+const Blog = ({blog, isLoading}) => {
   const [show, setShow] = useState(false)
 
   const blogStyle = {
@@ -8,6 +10,14 @@ const Blog = ({blog}) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const updateLikes = async (blog) => {
+    isLoading(true)
+    const b = {...blog, likes: blog.likes + 1}
+    const updatedBlog = await blogService.change(b)
+    console.log(updatedBlog)
+    isLoading(false)
   }
 
   if (!show) {
@@ -22,7 +32,7 @@ const Blog = ({blog}) => {
         <p>Title: {blog.title} &nbsp;<button onClick={() => {setShow(false)}}>hide</button></p> 
         <p>Author: {blog.author}</p>
         <p>url: {blog.url}</p>
-        <p>likes: {blog.likes} &nbsp;<button>like</button></p>
+        <p>likes: {blog.likes} &nbsp;<button onClick={() => updateLikes(blog)}>like</button></p>
       </div>
     )
   }

@@ -14,4 +14,9 @@ const create = async (body) => {
   return resp.data
 }
 
-export default { getAll, setToken, create }
+const change = async (body) => {
+  const resp = await axios.put(baseUrl + '/' + body.id, body, {headers: {'Authorization': token, 'Content-Type': 'application/json'}} )
+  return resp.data
+}
+
+export default { getAll, setToken, create, change }

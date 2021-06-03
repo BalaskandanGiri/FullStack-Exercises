@@ -74,7 +74,7 @@ const App = () => {
         {createBlog()}
         <br/>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} isLoading={(bool) => setIsLoading(bool)}/>
         )}
       </>
     )
