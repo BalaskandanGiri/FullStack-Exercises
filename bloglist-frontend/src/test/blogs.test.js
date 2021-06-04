@@ -19,24 +19,39 @@ describe('<Blog/>', () => {
             },
             'id': '60b4741f892b05a45f21c2f7'
         }
-        component = render(<Blog blog={blog}></Blog>)
     })
 
     test('renders content', () => {
+        component = render(<Blog blog={blog}></Blog>)
         component.debug()
         expect(component.container).toHaveTextContent('Balaskandan')
     })
 
     test('Confirm the toggle is not opened', () => {
+        component = render(<Blog blog={blog}></Blog>)
         const div = component.container.querySelector('button')
         console.log(prettyDOM(div))
         expect(div).toHaveTextContent('view')
     })
 
     test('after clicking the button, children are displayed', () => {
+        component = render(<Blog blog={blog}></Blog>)
         const button = component.getByText('view')
         fireEvent.click(button)
         component.debug()
         expect(component.container).toHaveTextContent('3000')
+    })
+
+    test('clicking like twice, communicates with parent twice', () => {
+        const isLoading = jest.fn()
+        const component = render(<Blog blog={blog} isLoading={isLoading}></Blog>)
+        component.debug()
+        const viewButton = component.getByText('view')
+        fireEvent.click(viewButton)
+        const like = component.getByText('like')
+        fireEvent.click(like)
+        fireEvent.click(like)
+        console.log(prettyDOM(like))
+        expect(isLoading.mock.calls).toHaveLength(2)
     })
 })
