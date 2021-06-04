@@ -2,7 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import Blog from '../components/Blog'
-import { prettyDOM } from '@testing-library/dom'
+import { fireEvent, prettyDOM } from '@testing-library/dom'
 
 describe('<Blog/>', () => {
     let blog, component
@@ -31,5 +31,12 @@ describe('<Blog/>', () => {
         const div = component.container.querySelector('button')
         console.log(prettyDOM(div))
         expect(div).toHaveTextContent('view')
+    })
+
+    test('after clicking the button, children are displayed', () => {
+        const button = component.getByText('view')
+        fireEvent.click(button)
+        component.debug()
+        expect(component.container).toHaveTextContent('3000')
     })
 })
