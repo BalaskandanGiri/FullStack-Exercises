@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import Blog from '../components/Blog'
+import CreateBlog from '../components/createBlogs'
 import { fireEvent, prettyDOM } from '@testing-library/dom'
 
 describe('<Blog/>', () => {
@@ -53,5 +54,30 @@ describe('<Blog/>', () => {
         fireEvent.click(like)
         console.log(prettyDOM(like))
         expect(isLoading.mock.calls).toHaveLength(2)
+    })
+
+    describe('<CreateBlog>', () => {
+        test('form validation', () => {
+            const func = jest.fn()
+            const component = render(<CreateBlog setShowCreate={func}></CreateBlog>)
+
+            const input1 = component.container.querySelector('#title')
+            const input2 = component.container.querySelector('#author')
+            const input3 = component.container.querySelector('#url')
+            const form = component.container.querySelector('form')
+
+            fireEvent.change(input1, {
+                target: { value: 'testing of forms could be easier' }
+            })
+            fireEvent.change(input2, {
+                target: { value: 'testing of forms could be easier' }
+            })
+            fireEvent.change(input3, {
+                target: { value: 'testing of forms could be easier' }
+            })
+            fireEvent.submit(form)
+            console.log(func)
+            expect(func.mock.calls).toHaveLength(0)
+        })
     })
 })
