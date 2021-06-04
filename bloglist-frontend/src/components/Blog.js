@@ -4,7 +4,7 @@ import blogService from '../services/blogService'
 const Blog = ({ blog, isLoading }) => {
     const [show, setShow] = useState(false)
     const userJSON = JSON.parse(window.localStorage.getItem('loggedUser'))
-    const username = userJSON.username
+    const username = userJSON && userJSON.username
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
