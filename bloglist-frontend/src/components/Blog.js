@@ -48,7 +48,7 @@ const Blog = ({ blog, isLoading }) => {
                 <p>Title: {blog.title} &nbsp;<button onClick={() => {setShow(false)}}>hide</button></p>
                 <p>Author: {blog.author}</p>
                 <p>url: <a href={blog.url} >{blog.url}</a></p>
-                <p>likes: {blog.likes} &nbsp;<button onClick={() => updateLikes(blog)}>like</button></p>
+                <p id="likes">likes: {blog.likes} &nbsp;<button onClick={() => updateLikes(blog)}>like</button></p>
                 {deleteButton}
             </div>
         )

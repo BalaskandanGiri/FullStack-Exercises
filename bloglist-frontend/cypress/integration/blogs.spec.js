@@ -35,36 +35,51 @@ describe('Blog app', function() {
             cy.get('#password').type('balaskandan')
             cy.contains('login').click()
         })
+        describe('one blog is created', function() {
+            beforeEach(function() {
+                cy.contains('Create').click()
+                cy.get('#title').type('balaskandan')
+                cy.get('#author').type('balaskandan')
+                cy.get('#url').type('balaskandan')
+                cy.contains('Create').click()
+            })
+            it('A blog can be created', function() {
+                cy.contains('Title: balaskandan')
+            })
 
-        it('A blog can be created', function() {
-            cy.contains('Create').click()
-            cy.get('#title').type('balaskandan')
-            cy.get('#author').type('balaskandan')
-            cy.get('#url').type('balaskandan')
-            cy.contains('Create').click()
-            cy.contains('Title: balaskandan')
-        })
+            it('checks that user can like a blog', function() {
+                cy.contains('view').click()
+                cy.contains('like').click()
+                cy.contains('1')
+            })
 
-        it('checks that user can like a blog', function() {
-            cy.contains('Create').click()
-            cy.get('#title').type('balaskandan')
-            cy.get('#author').type('balaskandan')
-            cy.get('#url').type('balaskandan')
-            cy.contains('Create').click()
-            cy.contains('view').click()
-            cy.contains('like').click()
-            cy.contains('1')
-        })
+            it('checks that user can delete a blog', function() {
+                cy.contains('view').click()
+                cy.contains('delete').click()
+                cy.contains('hellowoeld').should('not.exist')
+            })
 
-        it.only('checks that user can like a blog', function() {
-            cy.contains('Create').click()
-            cy.get('#title').type('hellowoeld')
-            cy.get('#author').type('hellowoeld')
-            cy.get('#url').type('hellowoeld')
-            cy.contains('Create').click()
-            cy.contains('view').click()
-            cy.contains('delete').click()
-            cy.contains('hellowoeld').should('not.exist')
+            it.only('checks that blogs are sorted according to likes', function() {
+                cy.contains('Title: balaskandan').contains('view').click()
+                cy.contains('like').click()
+                cy.contains('hide').click()
+                cy.get('#title').type('hellowoeld')
+                cy.get('#author').type('hellowoeld')
+                cy.get('#url').type('hellowoeld')
+                cy.get('#createButton').click()
+                cy.contains('Title: hellow').contains('view').click()
+                cy.contains('like').click()
+                cy.wait(2000)
+                cy.contains('like').click()
+                cy.wait(2000)
+                cy.contains('like').click()
+                cy.wait(2000)
+                cy.contains('like').click()
+                cy.contains('Title: balaskandan').contains('view').click()
+                cy.get('#likes')
+                    .should('contain', '3')
+                    .should('not.contain', '1')
+            })
         })
 
 

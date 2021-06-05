@@ -55,7 +55,7 @@ const CreateBlog = (props) => {
                     onChange={({ target }) => setUrl(target.value)}
                 />
             </div>
-            <button type="submit">Create</button>
+            <button id="createButton" type="submit">Create</button>
             <button onClick={() => {props.setShowCreate()}}>Cancel</button>
         </form>
     )
