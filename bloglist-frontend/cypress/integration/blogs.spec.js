@@ -36,13 +36,24 @@ describe('Blog app', function() {
             cy.contains('login').click()
         })
 
-        it.only('A blog can be created', function() {
+        it('A blog can be created', function() {
             cy.contains('Create').click()
             cy.get('#title').type('balaskandan')
             cy.get('#author').type('balaskandan')
             cy.get('#url').type('balaskandan')
             cy.contains('Create').click()
             cy.contains('Title: balaskandan')
+        })
+
+        it.only('checks that user can like a blog', function() {
+            cy.contains('Create').click()
+            cy.get('#title').type('balaskandan')
+            cy.get('#author').type('balaskandan')
+            cy.get('#url').type('balaskandan')
+            cy.contains('Create').click()
+            cy.contains('view').click()
+            cy.contains('like').click()
+            cy.contains('1')
         })
     })
 })
