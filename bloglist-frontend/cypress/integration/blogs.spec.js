@@ -25,6 +25,7 @@ describe('Blog app', function() {
             cy.get('#password').type('robertdiniro')
             cy.contains('login').click()
             cy.contains('invalid username or password')
+            cy.get('.error').should('have.css','color','rgb(255, 0, 0)')
         })
     })
 })
