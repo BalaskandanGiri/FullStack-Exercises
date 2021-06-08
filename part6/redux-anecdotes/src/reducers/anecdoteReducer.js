@@ -22,9 +22,9 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-const sort =  (state) => {
-  return state.sort((a,b) => {return b.votes - a.votes})
-}
+  const sort =  (state) => {
+    return state.sort((a,b) => {return b.votes - a.votes})
+  }
 
   switch(action.type) {
     case 'NEW_ANECDOTE':
