@@ -29,6 +29,8 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
       case 'NEW_ANECDOTE':
           return sort([...state, action.data])
+      case 'INIT':
+          return action.data
       case 'VOTE':
           const id = action.data.id
           const anecdoteToChange = state.find(x => x.id === id)
@@ -66,6 +68,13 @@ export const vote = (id) => {
 export const filter = (data) => {
   return {
     type: 'VOTE',
+    data: data
+  }
+}
+
+export const init = (data) => {
+  return {
+    type: 'INIT',
     data: data
   }
 }
