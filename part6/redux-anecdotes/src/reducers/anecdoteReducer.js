@@ -27,18 +27,18 @@ const reducer = (state = initialState, action) => {
   }
 
   switch(action.type) {
-    case 'NEW_ANECDOTE':
-      return sort([...state, action.data])
-    case 'VOTE':
-      const id = action.data.id
-      const anecdoteToChange = state.find(x => x.id === id)
-      const changedAnecdote = {
-        ...anecdoteToChange,
-        votes: anecdoteToChange.votes + 1
-      }
-      return sort(state.map(x => x.id === id? changedAnecdote : x))
-    default:
-      return sort(state)
+      case 'NEW_ANECDOTE':
+          return sort([...state, action.data])
+      case 'VOTE':
+          const id = action.data.id
+          const anecdoteToChange = state.find(x => x.id === id)
+          const changedAnecdote = {
+            ...anecdoteToChange,
+            votes: anecdoteToChange.votes + 1
+          }
+          return sort(state.map(x => x.id === id? changedAnecdote : x))
+      default:
+          return sort(state)
   }
 }
 
@@ -63,5 +63,11 @@ export const vote = (id) => {
   }
 }
 
+export const filter = (data) => {
+  return {
+    type: 'VOTE',
+    data: data
+  }
+}
 
 export default reducer
