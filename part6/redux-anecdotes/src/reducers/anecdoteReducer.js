@@ -1,3 +1,4 @@
+import service from '../services/anecdotes'
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -26,31 +27,34 @@ const reducer = (state = initialState, action) => {
     return state.sort((a,b) => {return b.votes - a.votes})
   }
 
-  switch(action.type) {
-      case 'NEW_ANECDOTE':
-          return sort([...state, action.data])
-      case 'INIT':
-          return action.data
-      case 'VOTE':
-          const id = action.data.id
-          const anecdoteToChange = state.find(x => x.id === id)
-          const changedAnecdote = {
-            ...anecdoteToChange,
-            votes: anecdoteToChange.votes + 1
-          }
-          return sort(state.map(x => x.id === id? changedAnecdote : x))
-      default:
-          return sort(state)
-  }
+    switch(action.type) {
+        case 'NEW_ANECDOTE':
+            return sort([...state, action.data])
+        case 'INIT':
+            return action.data
+        case 'VOTE':
+            const id = action.data.id
+            const anecdoteToChange = state.find(x => x.id === id)
+            const changedAnecdote = {
+                ...anecdoteToChange,
+                votes: anecdoteToChange.votes + 1
+            }
+            return sort(state.map(x => x.id === id? changedAnecdote : x))
+        default:
+            return sort(state)
+    }
 }
 
 const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
 
 export const createAnecdote = (content) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data: content
+  return async dispatch => {
+    const anecdote = await service.create(content)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: anecdote
+    })
   }
 } 
 
@@ -69,10 +73,13 @@ export const filter = (data) => {
 }
 
 export const init = (data) => {
-  return {
-    type: 'INIT',
-    data: data
-  }
+    return async dispatch => {
+        const anecdotes = await service.getAll()
+        dispatch({
+        type: 'INIT',
+        data: anecdotes
+        })
+    }
 }
 
 export default reducer

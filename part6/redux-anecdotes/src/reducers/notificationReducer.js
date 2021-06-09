@@ -16,4 +16,17 @@ const reducer = (state = '' , action) => {
     }
   }
 
+  export const voteNotification = (msg) => {
+	  return {
+		  type: 'VOTE_NOTIFICATION',
+		  message: msg
+	  }
+  }
+
+  export const removeNotification = () => {
+	  return {
+		  type: 'REMOVE_NOTIFICATION'
+	  }
+  }
+
   export default reducer
