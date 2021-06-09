@@ -8,6 +8,10 @@ const AnecdoteList = () => {
   
     const v = (id) => {
       console.log('vote', id)
+      dispatch({type:'VOTE_NOTIFICATION',message:(anecdotes.find(x => x.id === id)).content})
+      setTimeout(() => {
+          dispatch({type:'REMOVE_NOTIFICATION'})
+      },3000)
       dispatch(vote(id))
     }
 
