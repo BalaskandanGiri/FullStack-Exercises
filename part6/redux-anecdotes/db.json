@@ -16,21 +16,26 @@
   "profile": {
     "name": "typicode"
   },
-  "anecdotes":[
+  "anecdotes": [
     {
-      "id":"123",
-      "content":"If it hurts, do it more often",
+      "id": "123",
+      "content": "If it hurts, do it more often",
       "votes": 4
     },
     {
-      "id":"321",
-      "content":"Dudeee",
+      "id": "321",
+      "content": "Dudeee",
       "votes": 3
     },
     {
-      "id":"12421413",
-      "content":"hello world",
+      "id": "12421413",
+      "content": "hello world",
       "votes": 1
+    },
+    {
+      "content": "balaskandan",
+      "votes": 0,
+      "id": "Xubohij"
     }
   ]
 }
