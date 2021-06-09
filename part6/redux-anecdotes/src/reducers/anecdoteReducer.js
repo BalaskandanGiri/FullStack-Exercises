@@ -37,7 +37,7 @@ const reducer = (state = initialState, action) => {
             const anecdoteToChange = state.find(x => x.id === id)
             const changedAnecdote = {
                 ...anecdoteToChange,
-                votes: anecdoteToChange.votes + 1
+                votes: action.data.votes
             }
             return sort(state.map(x => x.id === id? changedAnecdote : x))
         default:
@@ -61,9 +61,10 @@ export const createAnecdote = (content) => {
 export const vote = (anecdote) => {
   return async dispatch => {
     const anec = await service.update(anecdote)
+    console.log(anec)
     dispatch({
         type: 'VOTE',
-        data: {id: anecdote.id}
+        data: anec
     })
   }
   

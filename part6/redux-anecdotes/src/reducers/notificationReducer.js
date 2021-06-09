@@ -16,11 +16,19 @@ const reducer = (state = '' , action) => {
     }
   }
 
-  export const voteNotification = (msg) => {
-	  return {
-		  type: 'VOTE_NOTIFICATION',
-		  message: msg
+  export const voteNotification = (msg, t) => {
+	  return async dispatch => {
+		dispatch({
+			type: 'VOTE_NOTIFICATION',
+			message: msg
+		})
+		setTimeout(() => {
+			dispatch({
+				type: 'REMOVE_NOTIFICATION'
+			})
+		}, t*1000)
 	  }
+	  
   }
 
   export const removeNotification = () => {
