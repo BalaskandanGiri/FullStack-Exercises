@@ -58,18 +58,15 @@ export const createAnecdote = (content) => {
   }
 } 
 
-export const vote = (id) => {
-  return {
-    type: 'VOTE',
-    data: {id: id}
+export const vote = (anecdote) => {
+  return async dispatch => {
+    const anec = await service.update(anecdote)
+    dispatch({
+        type: 'VOTE',
+        data: {id: anecdote.id}
+    })
   }
-}
-
-export const filter = (data) => {
-  return {
-    type: 'VOTE',
-    data: data
-  }
+  
 }
 
 export const init = (data) => {

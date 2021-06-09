@@ -17,11 +17,12 @@ const AnecdoteList = () => {
   
     const v = (id) => {
       console.log('vote', id)
-      dispatch(voteNotification((anecdotes.find(x => x.id === id)).content))
+      const anecdote = anecdotes.find(x => x.id === id)
+      dispatch(voteNotification(anecdote.content))
       setTimeout(() => {
           dispatch(removeNotification())
       },3000)
-      dispatch(vote(id))
+      dispatch(vote({...anecdote, votes: anecdote.votes+1}))
     }
 
     return (
