@@ -17,7 +17,7 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+const initialState = [].map(asObject)
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
