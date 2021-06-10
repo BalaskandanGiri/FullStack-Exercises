@@ -22,7 +22,7 @@ const reducer = (state = '' , action) => {
 			type: 'VOTE_NOTIFICATION',
 			message: msg
 		})
-		setTimeout(() => {
+		const w = setTimeout(() => {
 			dispatch({
 				type: 'REMOVE_NOTIFICATION'
 			})
