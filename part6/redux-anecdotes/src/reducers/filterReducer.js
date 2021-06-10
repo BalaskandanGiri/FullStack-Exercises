@@ -10,6 +10,15 @@ const reducer = (state = null , action) => {
 		default:
 			return state
     }
-  }
+}
 
-  export default reducer
+export const filter = (content) => {
+    return dispatch => {
+        dispatch({
+            type: 'filter',
+            content
+        })
+    }
+}
+
+export default reducer
