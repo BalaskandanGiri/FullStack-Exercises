@@ -111,21 +111,22 @@ const CreateNew = (props) => {
         info.reset()
     }
 
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           content
-          <input {...content} />
+          <input type ={content.type} onChange={content.onChange} value={content.value} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input type ={author.type} onChange={author.onChange} value={author.value} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input type ={info.type} onChange={info.onChange} value={info.value} />
         </div>
         <button type="submit">create</button>
         <button type="reset">reset</button>
