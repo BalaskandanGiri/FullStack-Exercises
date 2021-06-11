@@ -86,23 +86,23 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+    const history = useHistory()
+    const [content, setContent] = useState('')
+    const [author, setAuthor] = useState('')
+    const [info, setInfo] = useState('')
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
-    })
-    setContent('')
-    setAuthor('')
-    setInfo('')
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        props.addNew({
+        content,
+        author,
+        info,
+        votes: 0
+        })
+        history.push('/')
+
+    }
 
   return (
     <div>
@@ -150,6 +150,8 @@ const App = () => {
     const addNew = (anecdote) => {
         anecdote.id = (Math.random() * 10000).toFixed(0)
         setAnecdotes(anecdotes.concat(anecdote))
+        setNotification(`A new anecdote ${anecdote.content} created!`)
+        setTimeout(() => {setNotification('')}, 10000)
     }
 
     const anecdoteById = (id) =>
@@ -177,6 +179,7 @@ const App = () => {
   return (
     <div>
         <h1>Software anecdotes</h1>
+        {notification}
         <div>
             <Link to="/" style={padding}>anecdotes</Link>
             <Link to='/create' style={padding}>create new</Link>
