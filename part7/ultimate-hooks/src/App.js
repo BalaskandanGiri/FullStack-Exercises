@@ -25,10 +25,7 @@ console.log(baseUrl)
       setResources( (await axios.get(baseUrl)).data)
     }
     tmp()
-  },[])
-
-  
-
+  },[baseUrl])
 
   const create = async (resource) => {
     const response = await axios.post(baseUrl, resource)
