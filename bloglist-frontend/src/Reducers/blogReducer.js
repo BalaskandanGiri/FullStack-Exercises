@@ -9,6 +9,8 @@ const reducer = (state = [], action) => {
         return action.data
     case 'createBlog':
         return [...state, action.data]
+    case 'deleteBlog':
+        return state.filter(blog => blog.id !== action.data.id)
     default:
         return state
     }
@@ -34,6 +36,16 @@ export const addBlog = (data) => {
         dispatch({
             type: 'createBlog',
             data: resp
+        })
+    }
+}
+
+export const deleteBlog = (id) => {
+    return async dispatch => {
+        await service.deleteBlog(id)
+        dispatch({
+            type: 'deleteBlog',
+            data: { id : id }
         })
     }
 }

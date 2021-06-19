@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import blogService from '../services/blogService'
+import { deleteBlog as delBlog }  from '../Reducers/blogReducer'
 
 const Blog = ({ blog, isLoading }) => {
+    const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     const userJSON = JSON.parse(window.localStorage.getItem('loggedUser'))
     const username = userJSON && userJSON.username
@@ -27,9 +30,7 @@ const Blog = ({ blog, isLoading }) => {
 
     const deleteBlog = async () => {
         if (window.confirm(`Are you sure you want to delete ${blog.title}`)) {
-            isLoading(true)
-            await blogService.deleteBlog(blog.id)
-            isLoading(false)
+            dispatch(delBlog(blog.id))
         }
 
     }
