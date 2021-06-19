@@ -5,6 +5,8 @@ import loginService from './services/loginService'
 import Login from './components/login'
 import CreateBlog from './components/createBlogs'
 import Notification from './components/Notification'
+import { useDispatch } from 'react-redux'
+import { blogInit } from './Reducers/blogReducer'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -14,7 +16,7 @@ const App = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [showCreate, setShowCreate] = useState(false)
     const [errorMessage, setErrorMessage] = useState({ message: null, type:'sucess' })
-
+    const dispatch = useDispatch()
     useEffect(() => {
         const loggedUserJson = window.localStorage.getItem('loggedUser')
         console.log(loggedUserJson)
@@ -22,6 +24,7 @@ const App = () => {
             const user = JSON.parse(loggedUserJson)
             setUser(user)
             blogService.setToken(user.token)
+            dispatch(blogInit())
             const t = async () => {
                 setBlogs(await blogService.getAll())
             }
