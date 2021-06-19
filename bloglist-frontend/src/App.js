@@ -8,14 +8,15 @@ import Notification from './components/Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { blogInit } from './Reducers/blogReducer'
 import { newNotification, removeNotification } from './Reducers/notificationReducer'
+import { setUser } from './Reducers/userReducer'
 
 const App = () => {
     // const [blogs, setBlogs] = useState([])
     const blogs = useSelector(state => state.blogs)
     const errorMessage = useSelector(state => state.notifications)
+    const user = useSelector(state => state.user)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [showCreate, setShowCreate] = useState(false)
     const dispatch = useDispatch()
@@ -24,7 +25,7 @@ const App = () => {
         console.log(loggedUserJson)
         if(loggedUserJson) {
             const user = JSON.parse(loggedUserJson)
-            setUser(user)
+            dispatch(setUser(user))
             blogService.setToken(user.token)
             dispatch(blogInit())
         }
@@ -39,7 +40,7 @@ const App = () => {
                 username, password,
             })
             blogService.setToken(user.token)
-            setUser(user)
+            dispatch(setUser(user))
             window.localStorage.setItem(
                 'loggedUser', JSON.stringify(user)
             )
@@ -68,7 +69,7 @@ const App = () => {
         return (
             <>
                 <h2>blogs</h2>
-                <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); setUser(null)}}>logout</button></div>
+                <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); dispatch({ type: 'removeUser' })}}>logout</button></div>
                 <br/>
                 {createBlog()}
                 <br/>
