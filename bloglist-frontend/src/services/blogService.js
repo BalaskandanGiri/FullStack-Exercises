@@ -8,8 +8,6 @@ const getAll = async () => {
     const request = await axios.get(baseUrl, { headers: { Authorization: token } })
     const body = request.data
     const data = body.sort((x,y) =>  y.likes - x.likes)
-    console.log(body)
-    console.log(data)
     return data
 }
 

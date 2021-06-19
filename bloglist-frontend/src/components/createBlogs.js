@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogService'
+import { addBlog } from '../Reducers/blogReducer'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { newNotification, removeNotification } from '../Reducers/notificationReducer'
 
 
 const CreateBlog = (props) => {
+    const dispatch = useDispatch()
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -11,10 +14,12 @@ const CreateBlog = (props) => {
         e.preventDefault()
         try {
             props.isLoading(true)
-            const createBlog = await blogService.create({ 'title': title, 'author': author, 'url': url })
-            console.log(createBlog)
+            dispatch(addBlog({ 'title': title, 'author': author, 'url': url }))
             setUrl('');setAuthor('');setTitle('')
-            props.setMessage('Created Blog successfully', 'success')
+            dispatch(newNotification({ message: 'Created Blog successfully', type: 'success' }))
+            setTimeout(() => {
+                dispatch(removeNotification())
+            }, 5000)
             props.isLoading(false)
         } catch(ex) {
             props.setMessage('Blog creation failed', 'error')
