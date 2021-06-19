@@ -5,17 +5,19 @@ import loginService from './services/loginService'
 import Login from './components/login'
 import CreateBlog from './components/createBlogs'
 import Notification from './components/Notification'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { blogInit } from './Reducers/blogReducer'
+import { newNotification, removeNotification } from './Reducers/notificationReducer'
 
 const App = () => {
-    const [blogs, setBlogs] = useState([])
+    // const [blogs, setBlogs] = useState([])
+    const blogs = useSelector(state => state.blogs)
+    const errorMessage = useSelector(state => state.notifications)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [showCreate, setShowCreate] = useState(false)
-    const [errorMessage, setErrorMessage] = useState({ message: null, type:'sucess' })
     const dispatch = useDispatch()
     useEffect(() => {
         const loggedUserJson = window.localStorage.getItem('loggedUser')
@@ -25,10 +27,6 @@ const App = () => {
             setUser(user)
             blogService.setToken(user.token)
             dispatch(blogInit())
-            const t = async () => {
-                setBlogs(await blogService.getAll())
-            }
-            t()
         }
     }, [isLoading])
 
@@ -47,12 +45,11 @@ const App = () => {
             )
             setUsername('')
             setPassword('')
-            const temp = await blogService.getAll()
-            setBlogs(temp)
+            dispatch(blogInit())
         } catch (exception) {
-            setErrorMessage({ message:exception.response.data.error, type: 'error' })
+            dispatch(newNotification({ message:exception.response.data.error, type: 'error' }))
             console.log(exception.response.data.error)
-            setTimeout(() => {setErrorMessage({ message:null, type: 'success' })},5000)
+            setTimeout(() => dispatch(removeNotification()),5000)
         }
     }
 
@@ -62,8 +59,7 @@ const App = () => {
         } else {
             return <CreateBlog isLoading={
                 (bool) => setIsLoading(bool)}
-            setShowCreate={() => {setShowCreate(false)}}
-            setMessage={(msg,ty) => {setErrorMessage({ message:msg, type:ty });setTimeout(() => {setErrorMessage({ message:'',type:'success' })},5000) }}>
+            setShowCreate={() => {setShowCreate(false)}}>
             </CreateBlog>
         }
     }
