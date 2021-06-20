@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { blogInit } from './Reducers/blogReducer'
 import { newNotification, removeNotification } from './Reducers/notificationReducer'
 import { setUser } from './Reducers/userReducer'
+import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
+import Users from './components/users'
 
 const App = () => {
     // const [blogs, setBlogs] = useState([])
@@ -68,8 +70,6 @@ const App = () => {
     const displayBlogs = () => {
         return (
             <>
-                <h2>blogs</h2>
-                <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); dispatch({ type: 'removeUser' })}}>logout</button></div>
                 <br/>
                 {createBlog()}
                 <br/>
@@ -83,8 +83,20 @@ const App = () => {
     return (
         <div>
             {errorMessage.message && <Notification message={errorMessage.message} type={errorMessage.type}></Notification>}
+            <h2>blogs</h2>
             {user === null && <Login handleLogin={(t) => handleLogin(t)} username={username} password={password} setUsername={(v) => setUsername(v)} setPassword={(v) => setPassword(v)}/>}
-            {user !== null && displayBlogs()}
+            {user !== null && <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); dispatch({ type: 'removeUser' })}}>logout</button></div>}
+            <Router>
+                <Switch>
+                    <Route path='/users'>
+                        <Users></Users>
+                    </Route>
+                    <Route path='/'>
+                        {user !== null && displayBlogs()}
+                    </Route>
+                </Switch>
+            </Router>
+
         </div>
     )
 }
