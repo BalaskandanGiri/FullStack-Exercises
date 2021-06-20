@@ -8,8 +8,17 @@ const Users = () => {
     useEffect(() => {
         dispatch(usersInit())
     }, [])
+    const usersTable = users.map((x) => (<tr key={x.id}><td>{x.name}</td><td>{x.blogs.length}</td></tr>))
+
     return (
-        <h1></h1>
+        <>
+            <table>
+                <thead><tr><td>Name</td><td>Blogs</td></tr></thead>
+                <tbody>
+                    {usersTable}
+                </tbody>
+            </table>
+        </>
     )
 }
 
