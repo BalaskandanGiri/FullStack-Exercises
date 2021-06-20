@@ -11,6 +11,7 @@ import { newNotification, removeNotification } from './Reducers/notificationRedu
 import { setUser } from './Reducers/userReducer'
 import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
 import Users from './components/users'
+import UserDetails from './components/userDetails'
 
 const App = () => {
     // const [blogs, setBlogs] = useState([])
@@ -88,6 +89,9 @@ const App = () => {
             {user !== null && <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); dispatch({ type: 'removeUser' })}}>logout</button></div>}
             <Router>
                 <Switch>
+                    <Route path='/users/:id'>
+                        <UserDetails></UserDetails>
+                    </Route>
                     <Route path='/users'>
                         <Users></Users>
                     </Route>
