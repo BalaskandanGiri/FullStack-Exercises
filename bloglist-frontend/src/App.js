@@ -83,7 +83,7 @@ const App = () => {
     }
 
     return (
-        <div>
+        <div className="container">
             <Router>
                 <Navigation></Navigation>
                 {errorMessage.message && <Notification message={errorMessage.message} type={errorMessage.type}></Notification>}

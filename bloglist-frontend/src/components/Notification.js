@@ -1,5 +1,6 @@
 import '../index.css'
 import React from 'react'
+import { Alert } from 'react-bootstrap'
 
 const Notification = ({ message , type }) => {
     if (message === null) {
@@ -7,9 +8,12 @@ const Notification = ({ message , type }) => {
     }
 
     return (
-        <div className={type}>
+        // <div className={type}>
+        //     {message}
+        // </div>
+        <Alert variant={type === 'success'? 'success': 'danger'}>
             {message}
-        </div>
+        </Alert>
     )
 }
 
