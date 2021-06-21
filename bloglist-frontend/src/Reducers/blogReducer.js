@@ -11,6 +11,11 @@ const reducer = (state = [], action) => {
         return [...state, action.data]
     case 'deleteBlog':
         return state.filter(blog => blog.id !== action.data.id)
+    case 'updateLikes':
+        // eslint-disable-next-line no-case-declarations
+        let blog = state.find(blog => blog.id === action.data.id)
+        blog = { ...blog, likes: action.data.likes }
+        return state.map(b => b.id === blog.id ? blog : b)
     default:
         return state
     }
@@ -46,6 +51,16 @@ export const deleteBlog = (id) => {
         dispatch({
             type: 'deleteBlog',
             data: { id : id }
+        })
+    }
+}
+
+export const updateLikes = (blog) => {
+    return async dispatch => {
+        await service.change(blog)
+        dispatch({
+            type: 'updateLikes',
+            data: blog
         })
     }
 }

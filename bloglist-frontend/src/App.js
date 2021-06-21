@@ -12,6 +12,7 @@ import { setUser } from './Reducers/userReducer'
 import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
 import Users from './components/users'
 import UserDetails from './components/userDetails'
+import BlogDetail from  './components/blogDetails'
 
 const App = () => {
     // const [blogs, setBlogs] = useState([])
@@ -94,6 +95,9 @@ const App = () => {
                     </Route>
                     <Route path='/users'>
                         <Users></Users>
+                    </Route>
+                    <Route path='/blog/:id'>
+                        <BlogDetail></BlogDetail>
                     </Route>
                     <Route path='/'>
                         {user !== null && displayBlogs()}
