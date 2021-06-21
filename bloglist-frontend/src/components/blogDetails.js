@@ -44,6 +44,8 @@ const BlogDetail = () => {
                 <p>url: <a href={blog.url} >{blog.url}</a></p>
                 <p id="likes">likes: {blog.likes} &nbsp;<button onClick={() => updateLikes(blog)}>like</button></p>
                 {deleteButton}
+                <h3>Comments</h3>
+                {blog.comments?blog.comments.map(c => <li key={c.id}>{c.content}</li>):<p>No comments</p>}
             </div>
         </>
     )
