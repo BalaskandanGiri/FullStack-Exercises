@@ -7,6 +7,8 @@ const reducer = (state = [], action) => {
     switch(action.type)  {
     case 'INIT':
         return action.data
+    case 'updateBlog':
+        return state.map(blog => blog.id === action.data.id ? action.data : blog)
     case 'createBlog':
         return [...state, action.data]
     case 'deleteBlog':
@@ -63,6 +65,18 @@ export const updateLikes = (blog) => {
             data: blog
         })
     }
+}
+
+export const comment = (commentMsg, blogId) => {
+    return async dispatch => {
+        const response = await service.comment({ content: commentMsg }, blogId)
+        console.log(response)
+        dispatch({
+            type: 'updateBlog',
+            data: response
+        })
+    }
+
 }
 
 export default reducer

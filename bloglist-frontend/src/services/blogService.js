@@ -21,8 +21,13 @@ const change = async (body) => {
     return resp.data
 }
 
+const comment = async (comment, id) => {
+    const resp = await axios.post(baseUrl + '/' + id + '/comments', comment, { headers: { 'Authorization': token, 'Content-Type': 'application/json' } } )
+    return resp.data
+}
+
 const deleteBlog = async (id) => {
     await axios.delete(baseUrl + '/' + id, { headers: { 'Authorization': token, 'Content-Type': 'application/json' } })
 }
 
-export default { getAll, setToken, create, change, deleteBlog }
+export default { getAll, setToken, create, change, deleteBlog, comment }

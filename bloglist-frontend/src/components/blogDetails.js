@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
-import { deleteBlog as delBlog, updateLikes as update } from '../Reducers/blogReducer'
+import { comment, deleteBlog as delBlog, updateLikes as update } from '../Reducers/blogReducer'
 
 const BlogDetail = () => {
     const id = useParams().id
@@ -36,6 +36,12 @@ const BlogDetail = () => {
         dispatch(update(blog))
     }
 
+    const postComment = () => {
+        const inp = document.getElementById('commentInput').value
+        dispatch(comment(inp,blog.id))
+        document.getElementById.value = ''
+    }
+
     return (
         <>
             <div style={blogStyle}>
@@ -44,8 +50,9 @@ const BlogDetail = () => {
                 <p>url: <a href={blog.url} >{blog.url}</a></p>
                 <p id="likes">likes: {blog.likes} &nbsp;<button onClick={() => updateLikes(blog)}>like</button></p>
                 {deleteButton}
+                <input id="commentInput"></input><button onClick={() => {postComment()}}>add</button>
                 <h3>Comments</h3>
-                {blog.comments?blog.comments.map(c => <li key={c.id}>{c.content}</li>):<p>No comments</p>}
+                {blog.comments.length > 0?blog.comments.map(c => <li key={c.id}>{c.content}</li>):<p>No comments</p>}
             </div>
         </>
     )
