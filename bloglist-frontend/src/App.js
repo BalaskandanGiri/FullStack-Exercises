@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useHistory
 import Users from './components/users'
 import UserDetails from './components/userDetails'
 import BlogDetail from  './components/blogDetails'
-
+import Navigation from './components/navigation'
 const App = () => {
     // const [blogs, setBlogs] = useState([])
     const blogs = useSelector(state => state.blogs)
@@ -84,11 +84,11 @@ const App = () => {
 
     return (
         <div>
-            {errorMessage.message && <Notification message={errorMessage.message} type={errorMessage.type}></Notification>}
-            <h2>blogs</h2>
-            {user === null && <Login handleLogin={(t) => handleLogin(t)} username={username} password={password} setUsername={(v) => setUsername(v)} setPassword={(v) => setPassword(v)}/>}
-            {user !== null && <div>{user.username} logged in<button onClick={() => {window.localStorage.clear(); dispatch({ type: 'removeUser' })}}>logout</button></div>}
             <Router>
+                <Navigation></Navigation>
+                {errorMessage.message && <Notification message={errorMessage.message} type={errorMessage.type}></Notification>}
+                <h2>blogs</h2>
+                {user === null && <Login handleLogin={(t) => handleLogin(t)} username={username} password={password} setUsername={(v) => setUsername(v)} setPassword={(v) => setPassword(v)}/>}
                 <Switch>
                     <Route path='/users/:id'>
                         <UserDetails></UserDetails>
