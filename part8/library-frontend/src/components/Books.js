@@ -1,6 +1,8 @@
 import React from 'react'
 
+
 const Books = (props) => {
+  console.log(props)
   if (!props.show) {
     return null
   }
@@ -22,7 +24,7 @@ const Books = (props) => {
               published
             </th>
           </tr>
-          {books.map(a =>
+          {props.books.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>
