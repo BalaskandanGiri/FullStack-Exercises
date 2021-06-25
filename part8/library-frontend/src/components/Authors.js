@@ -52,7 +52,9 @@ const Authors = (props) => {
         </table>
         <h2>Edit author</h2>
         <form onSubmit={handleSubmit}>
-            Name: <input name="authorName"></input>
+            Name: <select name="authorName">
+                {props.authors.map(a => <option value={a.name}>{a.name}</option>)}
+            </select>
             BirthYear: <input name="birthYear"></input>
             <button type="submit">Edit</button>
         </form>
