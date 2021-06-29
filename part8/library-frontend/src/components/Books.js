@@ -1,13 +1,37 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 
 const Books = (props) => {
-  console.log(props)
+    console.log(props)
+    const [genres, setGenre] = useState([])
+    const [selectedGenre, setSelectedGenre] = useState('')
+    const [books, setBooks] = useState([])
+    const [filteredBooks, setFilteredBooks] = useState([])
+    useEffect(() => {
+        setBooks(props.books)
+        let genres = ['All']
+        props.books.forEach(element => {
+            element.genres.forEach(genre => {
+                if (genres.indexOf(genre) === -1) {
+                    genres.push(genre)
+                }
+            })
+        });
+        setGenre(genres)
+        setSelectedGenre('All')
+    }, [props.books])
+
+  useEffect(() => {
+    if(selectedGenre === 'All') {
+        setFilteredBooks(books)
+    } else {
+        setFilteredBooks(books.filter(book => book.genres.indexOf(selectedGenre) !== -1))
+    }
+  }, [books, selectedGenre])
+
   if (!props.show) {
     return null
   }
-
-  const books = []
 
   return (
     <div>
@@ -24,7 +48,7 @@ const Books = (props) => {
               published
             </th>
           </tr>
-          {props.books.map(a =>
+          {filteredBooks.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -33,6 +57,14 @@ const Books = (props) => {
           )}
         </tbody>
       </table>
+      <div>
+        {genres.length > 0 &&
+          genres.map((g) => (
+            <button onClick={() => setSelectedGenre(g)} key={g}>
+              {g}
+            </button>
+          ))}
+      </div>
     </div>
   )
 }
