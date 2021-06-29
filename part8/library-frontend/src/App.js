@@ -13,7 +13,7 @@ const App = () => {
   if (result.loading || res.loading)  {
     return <div>loading...</div>
   }
-  console.log(result)
+  console.log(result, res)
 
   return (
     <div>
