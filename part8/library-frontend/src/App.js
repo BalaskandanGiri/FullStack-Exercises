@@ -9,19 +9,36 @@ import { ADDED_BOOK, ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from './queries'
 import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 
 const App = () => {
-  const [page, setPage] = useState('authors')
-  const result = useQuery(ALL_AUTHORS)
-  const res = useQuery(ALL_BOOKS) 
-  const [token, setToken] = useState(localStorage.getItem("token")) 
-  const [error, setError] = useState("")
-  const client = useApolloClient()
+    const [page, setPage] = useState('authors')
+    const result = useQuery(ALL_AUTHORS)
+    const res = useQuery(ALL_BOOKS) 
+    const [token, setToken] = useState(localStorage.getItem("token")) 
+    const [error, setError] = useState("")
+    const client = useApolloClient()
 
-  useSubscription(ADDED_BOOK, {
-      onSubscriptionData: ({subscriptionData}) => {
-          console.log(subscriptionData)
-          window.alert(subscriptionData.data)
-      }
-  })
+    const updateCacheWith = (addedBook) => {
+        const includedIn = (set, object) => set.map(p => p.id).includes(object.id)
+
+        const dataInStore = client.readQuery({query: ALL_BOOKS}) // Reading the cache of GQL
+        console.log("Data in cache -> ", dataInStore)
+        // making sure we do not duplicate the data in cache
+        if(!includedIn(dataInStore.allBooks, addedBook)) {
+            // Pushing data directly to cache without fetching from backend
+            client.writeQuery({
+                query: ALL_BOOKS,
+                data: {allBooks: dataInStore.allBooks.concat(addedBook)}
+            })
+        }
+    }
+
+    // Websocket hook for react
+    useSubscription(ADDED_BOOK, {
+        onSubscriptionData: ({subscriptionData}) => {
+            console.log(subscriptionData)
+            window.alert(subscriptionData.data.bookAdded)
+            updateCacheWith(subscriptionData.data.bookAdded)
+        }
+    })
 
   if (result.loading || res.loading)  {
     return <div>loading...</div>
