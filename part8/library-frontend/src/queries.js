@@ -1,5 +1,18 @@
 import { gql } from '@apollo/client'
 
+// Fragments - data type definition. We could use this in other queries to retrieve the same data
+const BOOK_DETAILS = gql`
+    fragment BookDetails on Book {
+        id
+        title
+        author {
+            name
+        }
+        published
+        genres
+    }
+`
+
 export const ALL_AUTHORS = gql`
     query{
         allAuthors{
@@ -10,17 +23,14 @@ export const ALL_AUTHORS = gql`
     }
 `
 
+// Using the fragment BOOK_DETAILS to retrieve data
 export const ALL_BOOKS = gql`
     query{
         allBooks{
-            title
-            author {
-                name
-            }
-            published
-            genres
+            ...BookDetails
         }
     }
+    ${BOOK_DETAILS}
 `
 
 export const ALL_BOOKS_WITH_GENRE = gql`
@@ -53,9 +63,10 @@ export const ADD_BOOK = gql`
 export const ADDED_BOOK = gql`
     subscription{
         bookAdded {
-            title
+            ...BookDetails
         }
     }
+    ${BOOK_DETAILS}
 `
 
 export const EDIT_AUTHOR = gql`
