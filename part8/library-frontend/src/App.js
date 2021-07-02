@@ -5,8 +5,8 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommendations from './components/Recommendations'
-import { ALL_AUTHORS, ALL_BOOKS } from './queries'
-import { useQuery, useApolloClient } from '@apollo/client'
+import { ADDED_BOOK, ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from './queries'
+import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -15,6 +15,14 @@ const App = () => {
   const [token, setToken] = useState(localStorage.getItem("token")) 
   const [error, setError] = useState("")
   const client = useApolloClient()
+
+  useSubscription(ADDED_BOOK, {
+      onSubscriptionData: ({subscriptionData}) => {
+          console.log(subscriptionData)
+          window.alert(subscriptionData.data)
+      }
+  })
+
   if (result.loading || res.loading)  {
     return <div>loading...</div>
   }
