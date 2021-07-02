@@ -43,7 +43,6 @@ const App = () => {
   if (result.loading || res.loading)  {
     return <div>loading...</div>
   }
-  console.log(result, res)
 
   const logout = () => {
     setToken(null)
