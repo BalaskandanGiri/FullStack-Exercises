@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bmi": "ts-node bmiCalculator"
+    "bmi": "ts-node bmiCalculator",
+    "exercise": "ts-node exercise"
   },
   "author": "",
   "license": "ISC",
