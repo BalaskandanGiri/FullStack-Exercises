@@ -3,4 +3,6 @@
 ```
 typescript
 ts-node
+express
+ts-node-dev -> nodemon for ts
 ```
