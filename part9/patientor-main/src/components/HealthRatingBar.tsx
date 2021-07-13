@@ -14,6 +14,7 @@ const HEALTHBAR_TEXTS = [
 ];
 
 const HealthRatingBar = ({ rating, showText }: BarProps) => {
+    console.log(React)
   return (
     <div className="health-bar">
       {<Rating icon="heart" disabled rating={4 - rating} maxRating={4} />}
