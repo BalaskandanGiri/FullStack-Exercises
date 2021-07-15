@@ -31,7 +31,7 @@ const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
 const PatientPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [{ patients }] = useStateValue();
-  const [{ diagnoses }] = useStateValue();
+//   const [{ diagnoses }] = useStateValue();
 
   const patient = Object.values(patients).find(
     (patient: Patient) => patient.id === id
